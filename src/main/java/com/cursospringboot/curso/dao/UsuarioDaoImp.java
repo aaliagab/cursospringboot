@@ -57,4 +57,15 @@ public class UsuarioDaoImp implements UsuarioDao{
 				equals(Encriptado.getEncriptadoForte(usuario.getPassword()));
 	}
 
+	@Override
+	public Usuario getUserByCredentials(Usuario usuario) {
+		String query = "FROM Usuario WHERE email = :email";
+		List<Usuario> list = entityManager.createQuery(query)
+				.setParameter("email", usuario.getEmail())
+				.getResultList();
+		
+		return !list.isEmpty() && list.get(0).getPassword().
+				equals(Encriptado.getEncriptadoForte(usuario.getPassword()))?list.get(0):null;
+	}
+
 }

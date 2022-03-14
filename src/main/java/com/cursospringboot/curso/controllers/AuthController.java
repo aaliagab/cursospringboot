@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cursospringboot.curso.dao.UsuarioDao;
 import com.cursospringboot.curso.models.Usuario;
+import com.cursospringboot.curso.utils.JWTUtil;
 
 @RestController
 public class AuthController {
@@ -17,8 +18,16 @@ public class AuthController {
 	@Autowired
 	UsuarioDao usuarioDao;
 	
+	@Autowired
+	JWTUtil jwtUtil;
+	
 	@RequestMapping(value="api/login", method = RequestMethod.POST)
 	public String iniciarSesion(@RequestBody Usuario usuario) {		
-		return usuarioDao.verificarCredenciales(usuario)?"OK":"FAIL";
+		Usuario user = usuarioDao.getUserByCredentials(usuario);
+		if(user!=null) {
+			String tokenJWT = jwtUtil.create(String.valueOf(user.getId()), user.getEmail());
+			return tokenJWT;
+		}
+		return "FALSE";
 	}
 }
