@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cursospringboot.curso.criptographia.Encriptado;
 import com.cursospringboot.curso.dao.UsuarioDao;
 import com.cursospringboot.curso.models.Usuario;
 
@@ -34,9 +35,9 @@ public class UsuarioController {
 	}
 	
 	@RequestMapping(value="api/usuarios", method = RequestMethod.POST)
-	public void registrarUsuario(@RequestBody Usuario usuario) {		
+	public void registrarUsuario(@RequestBody Usuario usuario) {
+		usuario.setPassword(Encriptado.getEncriptadoForte(usuario.getPassword()));
 		usuarioDao.register(usuario);		
 	}
-	
 	
 }

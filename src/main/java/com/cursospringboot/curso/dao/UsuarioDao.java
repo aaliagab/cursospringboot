@@ -9,4 +9,5 @@ public interface UsuarioDao {
 	Usuario getUsuario(Long id);
 	void delete(Long id);
 	void register(Usuario usuario);
+	boolean verificarCredenciales(Usuario usuario);
 }
