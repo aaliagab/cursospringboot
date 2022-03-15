@@ -9,6 +9,13 @@ function cargarEmailUser(){
 	document.getElementById('txt-email-usuario').outerHTML = localStorage.email;
 }
 
+async function pdfUsuarios(){
+	const request = await fetch('api/usuarios/pdf', {
+      method: 'GET',
+      headers: getHeaders()
+    });
+}
+
 async function cargarUsuarios(){
     const request = await fetch('api/usuarios', {
       method: 'GET',
